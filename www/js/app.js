@@ -4,25 +4,9 @@
 // 'conFusion' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'conFusion.controllers' is found in controllers.js
-angular.module( 'conFusion', ['ionic', 'conFusion.controllers'] )
+angular.module( 'conFusion', ['ionic', 'conFusion.controllers', 'conFusion.services'] )
 
-  .run( function ( $ionicPlatform ) {
-    $ionicPlatform.ready( function () {
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
-      if ( window.cordova && window.cordova.plugins.Keyboard ) {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
-        cordova.plugins.Keyboard.disableScroll( true );
-
-      }
-      if ( window.StatusBar ) {
-        // org.apache.cordova.statusbar required
-        StatusBar.styleDefault();
-      }
-    } );
-  } )
-
-  .config( function ( $stateProvider, $urlRouterProvider ) {
+  .config( function ( $stateProvider, $urlRouterProvider, $ionicConfigProvider ) {
     $stateProvider
 
       .state( 'app', {
@@ -36,7 +20,8 @@ angular.module( 'conFusion', ['ionic', 'conFusion.controllers'] )
         url   : '/home',
         views : {
           'mainContent' : {
-            templateUrl : 'templates/home.html'
+            templateUrl : 'templates/home.html',
+            controller  : 'IndexController'
           }
         }
       } )
@@ -45,7 +30,8 @@ angular.module( 'conFusion', ['ionic', 'conFusion.controllers'] )
         url   : '/aboutus',
         views : {
           'mainContent' : {
-            templateUrl : 'templates/aboutus.html'
+            templateUrl : 'templates/aboutus.html',
+            controller  : 'AboutController'
           }
         }
       } )
@@ -64,7 +50,7 @@ angular.module( 'conFusion', ['ionic', 'conFusion.controllers'] )
         views : {
           'mainContent' : {
             templateUrl : 'templates/menu.html',
-            controller  : ''
+            controller  : 'MenuController'
           }
         }
       } )
@@ -74,7 +60,7 @@ angular.module( 'conFusion', ['ionic', 'conFusion.controllers'] )
         views : {
           'mainContent' : {
             templateUrl : 'templates/dishdetails.html',
-            controller  : ''
+            controller  : 'DishDetailController'
           }
         }
       } )
@@ -82,4 +68,25 @@ angular.module( 'conFusion', ['ionic', 'conFusion.controllers'] )
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise( '/app/home' );
-  } );
+
+    $ionicConfigProvider.scrolling.jsScrolling( true );
+  } )
+
+  .run( function ( $ionicPlatform, $state ) {
+    $ionicPlatform.ready( function () {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if ( window.cordova && window.cordova.plugins.Keyboard ) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
+        cordova.plugins.Keyboard.disableScroll( true );
+
+      }
+      if ( window.StatusBar ) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
+    } );
+
+     //setTimeout( function () {$state.go( 'app.aboutus' );}, 0 );
+  } )
+;
